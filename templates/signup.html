@@ -5,7 +5,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="jqm/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <style type="text/css">
     .center-wrapper{
       text-align: center;
@@ -13,9 +15,10 @@
     .center-wrapper * {
       margin: 0 auto;
     }
+    input{
+        width: 50;
+    }
     </style>
-    <script src="code.jquery.com/jquery.js"></script>
-    <script src="jqm/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
 
@@ -26,13 +29,23 @@
     </div><!-- /header -->
 
     <div role="main" class="ui-content">
-        <p>Page content goes here.</p>
-       <input name="text-basic" id="text-basic" value="" type="text"> 
+       <label>이름:</label> 
+       <input name="username" id="username" placeholder="이름" value="" type="text">
+
+       <label>전화번호</label> 
+       <input name="phoneNumber" id="phoneNumber" value="" type="tel">       
+
+       <label>이메일:</label> 
+       <input name="text-basic" id="text-basic" value="" type="email">        
+
+       <label>비밀번호:</label> 
+       <input name="text-basic" id="text-basic" value="" type="password"> 
+
+       <label>비밀번호 확인:</label> 
+       <input name="text-basic" id="text-basic" value="" type="password"> 
+
     </div><!-- /content -->
 
-    <div data-role="footer">
-        <h4>Page Footer</h4>
-    </div><!-- /footer -->
 </div><!-- /page -->
 
 </body>
