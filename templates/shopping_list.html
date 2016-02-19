@@ -1,0 +1,6 @@
+<form>
+    <input type="text" name="food">
+        {% for item in items %}
+            <input type="hidden" name="food" value="{{item}}">
+        {% endfor %}
+</form>

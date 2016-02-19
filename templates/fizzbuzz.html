@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul>
+    {% for x in range(1,k)  %}
+        {% if x%5 == 0 and  x%3 ==0 %}
+            <li>FizzBuzz</li>
+        {% elif x%5 == 0 %}
+            <li>Buzz</li>
+        {% elif x%3 == 0 %}
+            <li>Fizz</li>
+        {% else %}
+            <li>{{x}}</li>
+        {% endif %}        
+    {% endfor %}
+</ul>
+<ul>
+    {% for x in range(1,n)  %}
+        {% if x%5 == 0 and  x%3 ==0 %}
+            <li>FizzBuzz</li>
+        {% elif x%5 == 0 %}
+            <li>Buzz</li>
+        {% elif x%3 == 0 %}
+            <li>Fizz</li>
+        {% else %}
+            <li>{{x}}</li>
+        {% endif %}        
+    {% endfor %}
+</ul>
+{% endblock %}
+

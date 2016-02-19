@@ -1,0 +1,75 @@
+<!Doctype html>
+<html>
+<head>
+
+	<script>
+	function main()
+	{
+		username = getCookie("logged_in_username")
+		username = username.slice(0,username.indexOf("|"))
+		if (username) {
+			document.getElementById("submit").disabled = false
+			document.getElementById("user_info").innerHTML = "<h1>" + username + "</h1>"
+			document.getElementById("login").innerHTML = "<button onclick='logout()'>Logout</button>"
+		} else{
+			document.getElementById("submit").disabled = true 						
+			document.getElementById("user_info").innerHTML = "<a href='/login'>login</a> <a href='/signup'>signup</a>"
+		};
+	}
+
+	function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1);
+              if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+      }
+
+
+
+	function deleteAllCookies() {
+	    var cookies = document.cookie.split(";");
+
+	    for (var i = 0; i < cookies.length; i++) {
+	    	var cookie = cookies[i];
+	    	var eqPos = cookie.indexOf("=");
+	    	var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+	    	document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+	    }
+	}
+
+
+
+	function logout() {
+			deleteAllCookies();	
+			location.reload();
+        }
+	</script>
+
+	</head>
+<body onload="main()">
+	<div id = "user_info">
+	</div>
+	<div id = "login">
+	</div>
+<form method="POST">
+    <textarea name="content">{{content}}</textarea>
+    <input type="SUBMIT" id="submit">
+</form>
+
+<div id="error">
+    {{error}}
+</div>    
+    
+<hr>
+{% for entry in entries %}
+    <div class="content">
+        {{entry.content}}
+    </div>
+{% endfor %}
+
+</body>
+</html>

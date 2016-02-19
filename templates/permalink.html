@@ -1,0 +1,8 @@
+<h1> hi </h1>
+{% for entry in entries %}
+    {% if entry.key().id_or_name() == id %}
+        <div class="content">
+            {{entry.content}}
+        </div>
+    {% endif %}
+{% endfor %}    
