@@ -68,6 +68,7 @@ class Signup(Handler):
     def post(self):
         username = self.request.get("username")
         user_email = self.request.get("email")
+        user_phoneNumber = self.request.get("phoneNumber")
         password = self.request.get("password")
         password_check = self.request.get("confirm_password")        
 
@@ -77,12 +78,15 @@ class Signup(Handler):
             self.error_caused_by("username")
         elif validate.valid_email(user_email) == False:
             self.error_caused_by("email")
+        elif validate.valid_phoneNumber(user_phoneNumber) == False:
+            self.error_caused_by("phoneNumber")           
         elif validate.valid_password(password) == False:
             self.error_caused_by("password")
         elif password != password_check:
             self.error_caused_by("confirm_password")
         elif self.check_existing_user(username):
             self.error_caused_by("Your user name is taken")
+
         #else:
             # self.response.set_cookie("login_success","true")
             # self.response.set_cookie("failed_reason","not failed")
