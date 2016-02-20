@@ -67,8 +67,7 @@ class Signup(Handler):
 
     def post(self):
         username = self.request.get("username")
-        user_phoneNumber = self.request.get("phoneNumber")
-        user_phoneNumber = str(user_phoneNumber)
+        user_phoneNumber = str(self.request.get("phoneNumber"))
         password = self.request.get("password")
         password_check = self.request.get("confirm_password")        
 
@@ -77,8 +76,8 @@ class Signup(Handler):
         if validate.valid_username(username) == (False or None):
             self.error_caused_by("username")
         elif validate.valid_phoneNumber(user_phoneNumber) == (False or None):
-            self.error_caused_by("phoneNumber")           
-        elif validate.valid_password(password) == (False or None):
+            self.error_caused_by("phoneNumber" , username=username, phoneNumber=user_phoneNumber)           
+        elif validate.valid_password(password) == (False or None) or password=="":
             self.error_caused_by("password")
         elif password != password_check:
             self.error_caused_by("confirm_password",username=username)

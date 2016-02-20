@@ -45,16 +45,11 @@
     </style>
     <script>
 
-      function get_cookie ( cookie_name )
-      {
-        // http://www.thesitewizard.com/javascripts/cookies.shtml
-        var cookie_string = document.cookie ;
-        if (cookie_string.length != 0) {
-          var cookie_value = cookie_string.match ( '(^|;)[\s]*' + cookie_name + '=([^;]*)' );
-          return decodeURIComponent ( cookie_value[2] ) ;
-        }
-        return '' ;
-      } 
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
 
     function $_GET(param) {
       var vars = {};
@@ -76,19 +71,25 @@
 
       function init(){
         var error_msg='';
+        var username = getCookie('username');
+        var phoneNumber= getCookie('phoneNumber');
 
         switch (error)
         {
-           case 'username' : {error_msg = "아이디를 입력하십시오";
+           case 'username' : error_msg = "아이디를 입력하십시오";
            break;          
 
-           case 'password' : error_msg = "비밀번호를 입력하십시오";
+           case 'password' : error_msg = "비밀번호를 확인하십시오";
            break;          
 
            case 'confirm_password' : error_msg = "비밀번호를 확인하십시오";
+                                     document.getElementById('inputUsername').value = username;
+                                     document.getElementById('inputPhoneNumber').value = phoneNumber;
            break;          
 
-           case 'phoneNumber' : error_msg = "전화번호를 입력하십시오";
+           case 'phoneNumber' : error_msg = "전화번호를 확인하십시오";
+                                document.getElementById('inputUsername').value = username;
+                                document.getElementById('inputPhoneNumber').value = phoneNumber;
            break;          
            default: error_msg='';
         }

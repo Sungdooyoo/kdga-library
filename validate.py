@@ -2,7 +2,7 @@ import re
 
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PWD_RE = re.compile(r"^.{3,20}$")
+PWD_RE = re.compile("^.{6,20}$")
 EMAIL_RE = re.compile(r"^[\S]+@[\S]+\.[\S]+$")
 PHONE_RE = re.compile("^[0-9]{11}$")
 def valid_username(username):
