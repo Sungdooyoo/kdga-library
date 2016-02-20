@@ -62,13 +62,42 @@ class Main(Handler):
 
 class Signup(Handler):
     def get(self):
+        # self.response.set_cookie("login_success","true")
         self.render("signup.html")
 
     def post(self):
-        #get user_input and store in variables
-        pass
+        username = self.request.get("username")
+        user_email = self.request.get("email")
+        password = self.request.get("password")
+        password_check = self.request.get("confirm_password")        
+
+        #validate user inputs
+        valid_input = False
+        if validate.valid_username(username) == False:
+            self.error_caused_by("username")
+        elif validate.valid_email(user_email) == False:
+            self.error_caused_by("email")
+        elif validate.valid_password(password) == False:
+            self.error_caused_by("password")
+        elif password != password_check:
+            self.error_caused_by("confirm_password")
+        elif self.check_existing_user(username):
+            self.error_caused_by("Your user name is taken")
+        #else:
+            # self.response.set_cookie("login_success","true")
+            # self.response.set_cookie("failed_reason","not failed")
+
+            # password = s_hash.hash_password(password)
+            # user_instance = User(user_id = username,email= user_email, password = password)
+            # user_instance.put()            
+            # self.response.set_cookie("logged_in_username", s_hash.hash_cookie(user_id))
+            # self.redirect("/welcome")        
 
 
+    def error_caused_by(self, failed_reason):
+        self.response.set_cookie("login_success","false")
+        self.response.set_cookie("failed_reason", failed_reason)
+        self.redirect("/signup?error=%s" % failed_reason)
 
 
 

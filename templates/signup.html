@@ -7,7 +7,10 @@
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1 ,user-scalable=no"> -->
     <meta name = "viewport" content = "initial-scale = 2, user-scalable = no">
     <style>
-    
+        #error{
+          text-align: center;
+          color: red;
+        }    
 
         #form_wrapper {
           overflow-x:hidden;
@@ -39,38 +42,77 @@
           width: 100px;
           text-align: right;
               }​
-
-
-
-
-
     </style>
+    <script>
+    function $_GET(param) {
+      var vars = {};
+      window.location.href.replace( location.hash, '' ).replace( 
+        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+        function( m, key, value ) { // callback
+          vars[key] = value !== undefined ? value : '';
+        }
+      );
+
+      if ( param ) {
+        return vars[param] ? vars[param] : null;  
+      }
+      return vars;
+          }
+
+      var get = $_GET(),
+          error = $_GET()['error'];
+
+      function init(){
+        var error_msg='';
+
+        switch (error)
+        {
+           case 'username' : error_msg = "아이디를 입력하십시오";
+           break;
+
+           case 'email' : error_msg = "이메일을 입력하십시오";
+           break;          
+
+           case 'password' : error_msg = "비밀번호를 입력하십시오";
+           break;          
+
+           case 'confirm_password' : error_msg = "비밀번호를 확인하십시오";
+           break;          
+
+           case 'tel' : error_msg = "전화번호를 입력하십시오";
+           break;          
+           default: error_msg='';
+        }
+        document.getElementById('error').innerHTML = error_msg;
+      }
+
+    </script>
 
 
  </head>
-  <body>
+  <body onload="init()">
 
 
     <div id="form_wrapper">
       <form method="post" class="form-signin">
         <h2 class="form-signin-heading">회원가입</h2>
         <div class="input-wrapper">
-        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="이름" required autofocus>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="이름"  required=required autofocus>
         <br>
         </div>
         <div class="input-wrapper">
-        <input type="tel" name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="전화번호" required autofocus>
+        <input type="tel" name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="전화번호"  autofocus>
         </div>
         <div class="input-wrapper">
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" >
         </div>
         <div class="input-wrapper">
-        <input type="password" name="confirm_password" id="inputconfirm_password" class="form-control" placeholder="비밀번호 확인" required> 
+        <input type="password" name="confirm_password" id="inputconfirm_password" class="form-control" placeholder="비밀번호 확인" > 
         </div>
         <div id="submit_div" >
         <input type="submit" value="제출" width="63%"  >
         </div>
-
+        <div id="error"></div>
       
       </form>
     </div>
