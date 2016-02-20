@@ -35,7 +35,7 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 class User(db.Model):
     user_id = db.StringProperty(required = True)
     password = db.StringProperty(required = True)
-    email = db.EmailProperty(required = True)
+    phoneNumber = db.IntegerProperty(required = True)
     created_time = db.DateTimeProperty(auto_now_add = True)
 
 
@@ -67,7 +67,6 @@ class Signup(Handler):
 
     def post(self):
         username = self.request.get("username")
-        user_email = self.request.get("email")
         user_phoneNumber = self.request.get("phoneNumber")
         password = self.request.get("password")
         password_check = self.request.get("confirm_password")        
@@ -76,8 +75,6 @@ class Signup(Handler):
         valid_input = False
         if validate.valid_username(username) == False:
             self.error_caused_by("username")
-        elif validate.valid_email(user_email) == False:
-            self.error_caused_by("email")
         elif validate.valid_phoneNumber(user_phoneNumber) == False:
             self.error_caused_by("phoneNumber")           
         elif validate.valid_password(password) == False:
