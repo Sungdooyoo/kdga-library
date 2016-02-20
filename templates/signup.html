@@ -4,12 +4,28 @@
     <title>Bootstrap 101 Template</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1 ,user-scalable=no"> -->
+    <meta name = "viewport" content = "initial-scale = 2.3, user-scalable = no">
     <style>
+    
 
+body {
+    overflow-x:hidden;
+}
+
+
+
+        h2{
+          text-align: center;
+        }
+        div.input-wrapper{
+          margin-left:20px;
+          margin-bottom:8px;
+        }
 
         input{
-          height:30px;
+          height:20px;
+          width: 70%;
           font-size: 15px;
         }
         input::-webkit-input-placeholder {
@@ -23,6 +39,8 @@
 
 
 
+
+
     </style>
 
 
@@ -31,15 +49,20 @@
 
 
       <form method="post" class="form-signin">
-        <h1 class="form-signin-heading">회원가입</h1>
+        <h2 class="form-signin-heading">회원가입</h2>
+        <div class="input-wrapper">
         <input type="text" name="username" id="inputUsername" class="form-control" placeholder="이름" required autofocus>
         <br>
-
+      </div>
+        <div class="input-wrapper">
         <input type="tel" name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="전화번호" required autofocus>
-        <br>
+        </div>
+        <div class="input-wrapper">
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
-        <br>
+        </div>
+        <div class="input-wrapper">
         <input type="password" name="confirm_password" id="inputconfirm_password" class="form-control" placeholder="비밀번호 확인" required> 
+      </div>
         <br>
 
 
