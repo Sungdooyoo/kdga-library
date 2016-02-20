@@ -68,21 +68,22 @@ class Signup(Handler):
     def post(self):
         username = self.request.get("username")
         user_phoneNumber = self.request.get("phoneNumber")
+        user_phoneNumber = str(user_phoneNumber)
         password = self.request.get("password")
         password_check = self.request.get("confirm_password")        
 
         #validate user inputs
         valid_input = False
-        if validate.valid_username(username) == False:
+        if validate.valid_username(username) == (False or None):
             self.error_caused_by("username")
-        elif validate.valid_phoneNumber(user_phoneNumber) == False:
+        elif validate.valid_phoneNumber(user_phoneNumber) == (False or None):
             self.error_caused_by("phoneNumber")           
-        elif validate.valid_password(password) == False:
+        elif validate.valid_password(password) == (False or None):
             self.error_caused_by("password")
         elif password != password_check:
-            self.error_caused_by("confirm_password")
+            self.error_caused_by("confirm_password",username=username)
         elif self.check_existing_user(username):
-            self.error_caused_by("Your user name is taken")
+            self.error_caused_by("Your user name is taken",phoneNumber=user_phoneNumber)
 
         #else:
             # self.response.set_cookie("login_success","true")
@@ -95,10 +96,21 @@ class Signup(Handler):
             # self.redirect("/welcome")        
 
 
-    def error_caused_by(self, failed_reason):
+    def error_caused_by(self, failed_reason, username='', phoneNumber='',password=''):
         self.response.set_cookie("login_success","false")
         self.response.set_cookie("failed_reason", failed_reason)
+        self.response.set_cookie("username", username)
+        self.response.set_cookie("phoneNumber", phoneNumber)
         self.redirect("/signup?error=%s" % failed_reason)
+
+    def check_existing_user(self, user_id):
+        user_already_exists = False
+        user_entries = db.GqlQuery("select * from User where user_id='%s'" % user_id )
+        for user_entry in user_entries:
+            if user_entry.user_id == user_id:
+                user_already_exists = True 
+
+        return user_already_exists        
 
 
 
