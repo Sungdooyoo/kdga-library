@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Page Title</title>
-
+  <head>
+    <title>Bootstrap 101 Template</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
 
-    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="http://code.jquery.com/jquery.js"></script>
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <style type="text/css">
-    .center-wrapper{
-      text-align: center;
-    }
-    .center-wrapper * {
-      margin: 0 auto;
-    }
-    input{
-        width: 50;
-    }
+
+        input{
+          height:30px;
+          font-size: 15px;
+        }
+        input::-webkit-input-placeholder {
+          font-size: 15px;
+        }
+        label {
+          display: inline-block;
+          width: 100px;
+          text-align: right;
+              }​
+
+
+
     </style>
-</head>
-<body>
 
-<div data-role="page" class = "center-wrapper">
 
-    <div data-role="header">
-        <h1>회원가입</h1>
-    </div><!-- /header -->
+ </head>
+  <body>
 
-    <div role="main" class="ui-content">
-       <label>이름:</label> 
-       <input name="username" id="username" placeholder="이름" value="" type="text">
 
-       <label>전화번호</label> 
-       <input name="phoneNumber" id="phoneNumber" value="" type="tel">       
+      <form method="post" class="form-signin">
+        <h1 class="form-signin-heading">회원가입</h1>
+        <label for="username" class="sr-only">이름</label>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="이름" required autofocus>
+        <br>
 
-       <label>이메일:</label> 
-       <input name="email" id="email" value="" type="email">        
+        <label for="phoneNumber" class="sr-only">전화</label>
+        <input type="tel" name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="전화번호" required autofocus>
+        <br>
+        <label for="inputPassword" class="sr-only">비밀번호</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" required>
+        <br>
+        <label for="confirm_password" class="sr-only">비밀번호 확인</label>
+        <input type="password" name="confirm_password" id="inputconfirm_password" class="form-control" placeholder="비밀번호 확인" required> 
+        <br>
 
-       <label>비밀번호:</label> 
-       <input name="password" id="password" value="" type="password"> 
 
-       <label>비밀번호 확인:</label> 
-       <input name="password_check" id="password_check" value="" type="password"> 
 
-    </div><!-- /content -->
+      
+      </form>
 
-</div><!-- /page -->
 
-</body>
-</html
+  </body>
+</html>
