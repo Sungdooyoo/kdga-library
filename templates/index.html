@@ -40,7 +40,7 @@
     }
 
     	function init() {
-
+            //setting cookie "username"
     		{% block body %}
                 {% if username: %}
     				setCookie("username","{{username}}");
@@ -49,10 +49,12 @@
                 {% endif %}
 			{% endblock %}
             username = getCookie("username");
+
+            //rendering lougin_or_signup section
             if (username !="no_user") {
-                document.getElementById("login_or_signup").innerHTML = username + "<a href='/' onclick='logout()'>로그아웃</a>";
+                document.getElementById("login_or_signup").innerHTML = username + "|<a href='/' onclick='logout()'>로그아웃</a>";
             } else{
-                document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>";
+                document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>|<a href='/signup'>회원가입</a>";
             };
 
     	}
