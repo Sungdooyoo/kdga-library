@@ -66,13 +66,11 @@ class Main(Handler):
         username = self.request.cookies.get("username")
         self.render("index.html", username=username)
     def post(self):
-        username = self.request.cookies.get("username")
+        username = self.request.get("username")
         title = self.request.get("title")
-        book_instance = Book(username = username,title =title)
+        book_instance = Books(username = username,title =title)
         book_instance.put()
-        self.render("index.html")
-
-        pass
+        self.render("index.html", username=username)
 
 
 

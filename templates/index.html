@@ -43,27 +43,28 @@
         setCookie("username","no_user");
     }
 
-    	function init() {
-            //setting cookie "username"
-    		{% block body %}
-                {% if username: %}
-    				setCookie("username","{{username}}");
-                {% else: %}
-                    setCookie("username","no_user");
-                {% endif %}
-			{% endblock %}
-            username = getCookie("username");
+	function init() {
+        //setting cookie "username"
+		{% block body %}
+            {% if username: %}
+				setCookie("username","{{username}}");
+            {% else: %}
+                setCookie("username","no_user");
+            {% endif %}
+		{% endblock %}
+        username = getCookie("username");
 
-            //rendering lougin_or_signup section
-            if (username !="no_user") {
-                document.getElementById("login_or_signup").innerHTML = username + "|<a href='/' onclick='logout()'>로그아웃</a>";
-                document.getElementById("submit").disabled = false;
-            } else{
-                document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>|<a href='/signup'>회원가입</a>";
-                document.getElementById("submit").disabled = true;
-            };
+        //rendering lougin_or_signup section
+        if (username !="no_user") {
+            document.getElementById("login_or_signup").innerHTML = username + "|<a href='/' onclick='logout()'>로그아웃</a>";
+            document.getElementById("submit").disabled = false;
+            document.getElementById("username").value = username;
+        } else{
+            document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>|<a href='/signup'>회원가입</a>";
+            document.getElementById("submit").disabled = true;
+        };
 
-    	}
+	}
     </script>
 
 </head>
@@ -75,6 +76,7 @@
     <div id="rental_form">
             <form method="post">
                 <label>제목:</label><input name="title">
+                <input type="hidden" name="username" id="username">
                 <input id="submit" type="submit" value="대출" disabled="true">
             </form> 
          </div>
