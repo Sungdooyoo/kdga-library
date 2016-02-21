@@ -13,6 +13,10 @@
         text-align: center;
         padding-top: 10px;
     }
+    #rented_list{
+        text-align: center;
+        padding-top: 10px;
+    }
     </style>
 
     <script charset="utf-8">
@@ -85,6 +89,16 @@
                 <input id="submit" type="submit" value="대출" disabled="true">
             </form> 
          </div>
+
+    <div id="rented_list">
+        {% block rented_list %}
+            {% for entry in entries %}
+             {{entry.title}} | {{entry.username}} | {{entry.rented_date}} <br>   
+            {% endfor %}
+
+        {% endblock %}
+
+    </div>
 	   </body>
 	</html>
 
