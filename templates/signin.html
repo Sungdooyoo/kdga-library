@@ -60,45 +60,8 @@
         }
       );
 
-      if ( param ) {
-        return vars[param] ? vars[param] : null;  
-      }
-      return vars;
-          }
 
-      var get = $_GET(),
-          error = $_GET()['error'];
 
-      function init(){
-        var error_msg='';
-        var username = getCookie('username');
-        var phoneNumber= getCookie('phoneNumber');
-
-        switch (error)
-        {
-           case 'username' : error_msg = "이름을 확인하십시오";
-                                          document.getElementById('inputPhoneNumber').value = phoneNumber;
-           break;          
-
-           case 'password' : error_msg = "비밀번호를 확인하십시오<br>최소 6자리입니다.";
-                                     document.getElementById('inputPhoneNumber').value = phoneNumber;
-           break;          
-
-           case 'confirm_password' : error_msg = "비밀번호를 확인하십시오";
-                                     document.getElementById('inputPhoneNumber').value = phoneNumber;
-           break;          
-
-           case 'phoneNumber' : error_msg = "전화번호를 확인하십시오";
-                                document.getElementById('inputPhoneNumber').value = phoneNumber;
-           break;  
-
-           case 'same_id' : error_msg = "이미 가입하셨습니다";
-                                document.getElementById('inputPhoneNumber').value = phoneNumber;
-           break;                   
-           default: error_msg='';
-        }
-        document.getElementById('error').innerHTML = error_msg;
-      }
 
     </script>
 
@@ -109,22 +72,16 @@
 
     <div id="form_wrapper">
       <form method="post" class="form-signin">
-        <h2 class="form-signin-heading">회원가입</h2>
+        <h2 class="form-signin-heading">로그인</h2>
         <div class="input-wrapper">
         <input type="text" name="username" id="inputUsername" class="form-control" placeholder="이름" value = "" autofocus>
         <br>
         </div>
         <div class="input-wrapper">
-        <input type="tel" name="phoneNumber" id="inputPhoneNumber" class="form-control" placeholder="전화번호"  value="" autofocus>
-        </div>
-        <div class="input-wrapper">
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="비밀번호" value="" autofocus>
         </div>
-        <div class="input-wrapper">
-        <input type="password" name="confirm_password" id="inputconfirm_password" class="form-control" placeholder="비밀번호 확인" value="" autofocus> 
-        </div>
         <div id="submit_div" >
-        <input type="submit" value="제출" width="63%"  >
+        <input type="submit" value="로그인" width="63%"  >
         </div>
         <div id="error"></div>
       

@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+#-*- coding: utf-8 -*-
 import os
 import hashlib
 import hmac
@@ -42,6 +44,8 @@ class User(db.Model):
 # Webpage Handlers that handles http request and responses to render pages
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
+        self.response.headers['Content-Type'] = "text/html;charset=utf-8"
+        self.response.charset = "utf-8"
         self.response.write(*a, **kw)
 
     def render_str(self, template, **params):
@@ -53,8 +57,8 @@ class Handler(webapp2.RequestHandler):
 
 class Main(Handler):
     def get(self):
-        self.write("hi")
-
+        username = self.request.cookies.get("username")
+        self.render("index.html")
     def post(self):
         pass
 
@@ -67,32 +71,33 @@ class Signup(Handler):
 
     def post(self):
         username = self.request.get("username")
-        user_phoneNumber = str(self.request.get("phoneNumber"))
+        user_phoneNumber = self.request.get("phoneNumber")
         password = self.request.get("password")
         password_check = self.request.get("confirm_password")        
 
         #validate user inputs
         valid_input = False
-        if validate.valid_username(username) == (False or None):
-            self.error_caused_by("username")
-        elif validate.valid_phoneNumber(user_phoneNumber) == (False or None):
+        if validate.valid_username(username) == None:
+            self.error_caused_by("username",username=username, phoneNumber=user_phoneNumber)
+        elif validate.valid_phoneNumber(user_phoneNumber) ==  None:
             self.error_caused_by("phoneNumber" , username=username, phoneNumber=user_phoneNumber)           
-        elif validate.valid_password(password) == (False or None) or password=="":
-            self.error_caused_by("password")
+        elif validate.valid_password(password) == None:
+            self.error_caused_by("password", username=username, phoneNumber=user_phoneNumber)
         elif password != password_check:
-            self.error_caused_by("confirm_password",username=username)
+            self.error_caused_by("confirm_password",username=username, phoneNumber=user_phoneNumber)
         elif self.check_existing_user(username):
-            self.error_caused_by("Your user name is taken",phoneNumber=user_phoneNumber)
+            self.error_caused_by("same_id",phoneNumber=user_phoneNumber)
 
-        #else:
-            # self.response.set_cookie("login_success","true")
-            # self.response.set_cookie("failed_reason","not failed")
+        else:
+            self.response.set_cookie("login_success","true")
+            self.response.set_cookie("failed_reason","not failed")
 
-            # password = s_hash.hash_password(password)
-            # user_instance = User(user_id = username,email= user_email, password = password)
-            # user_instance.put()            
-            # self.response.set_cookie("logged_in_username", s_hash.hash_cookie(user_id))
-            # self.redirect("/welcome")        
+            password = s_hash.hash_password(password)
+            user_phoneNumber = int(user_phoneNumber)
+            user_instance = User(user_id = username,phoneNumber=user_phoneNumber, password = password)
+            user_instance.put()            
+            self.response.set_cookie("username", username)
+            self.render("index.html", username=username)
 
 
     def error_caused_by(self, failed_reason, username='', phoneNumber='',password=''):
@@ -111,8 +116,12 @@ class Signup(Handler):
 
         return user_already_exists        
 
+class Signin(Handler):
+    def get(self):
+        self.render("signin.html")
 
 
 app = webapp2.WSGIApplication([('/', Main), 
                                ('/signup',Signup),
+                               ('/signin',Signin),
                                ], debug=True)

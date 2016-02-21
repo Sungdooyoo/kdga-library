@@ -1,0 +1,50 @@
+<!Doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name = "viewport" content = "initial-scale = 2, user-scalable = no">
+
+    <style>
+    #login_or_signup{
+    	text-align: center;
+    }
+    </style>
+
+    <script charset="utf-8">
+
+     function getCookie(cName) {
+        cName = cName + '=';
+        var cookieData = document.cookie;
+        var start = cookieData.indexOf(cName);
+        var cValue = '';
+        if(start != -1){
+            start += cName.length;
+            var end = cookieData.indexOf(';', start);
+            if(end == -1)end = cookieData.length;
+            cValue = cookieData.substring(start, end);
+        }
+        return unescape(cValue);
+    }
+
+    	function init () {
+    		username = getCookie('username')
+    		username = decodeURIComponent(username)
+    		if (username == "") {
+    			document.getElementById('login_or_signup').innerHTML="로그인";
+    		} else{
+    			document.getElementById('login_or_signup').innerHTML="로그아웃<br>"
+    		};
+
+    	}
+    </script>
+
+</head>
+
+<body onload="init()">
+
+	<div id="login_or_signup">
+		로그아웃 {{username}}
+	</div>
+	</body>
+	</html>
