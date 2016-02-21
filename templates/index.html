@@ -35,6 +35,10 @@
 		document.cookie=c_name + "=" + c_value;
 	}
 
+    function logout() {
+        setCookie("username","no_user");
+    }
+
     	function init() {
 
     		{% block body %}
@@ -46,9 +50,9 @@
 			{% endblock %}
             username = getCookie("username");
             if (username !="no_user") {
-                document.getElementById("login_or_signup").innerHTML = username;
+                document.getElementById("login_or_signup").innerHTML = username + "<a href='/' onclick='logout()'>로그아웃</a>";
             } else{
-                document.getElementById("login_or_signup").innerHTML = "로그인";
+                document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>";
             };
 
     	}
