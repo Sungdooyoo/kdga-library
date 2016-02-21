@@ -23,6 +23,8 @@ import webapp2
 import cgi
 import jinja2
 import urllib
+import time
+import datetime 
 from google.appengine.ext import db
 
 import s_hash
@@ -70,7 +72,7 @@ class Main(Handler):
         title = self.request.get("title")
         book_instance = Books(username = username,title =title)
         book_instance.put()
-        self.render("index.html", username=username)
+        self.render("index.html", username=username, just_rented=True)
 
 
 
@@ -143,7 +145,8 @@ class Signin(Handler):
                     if hashlib.sha256(password + salt).hexdigest() == hash_val:
                         #login Success
                         # self.response.set_cookie("logged_in_username", s_hash.hash_cookie(username))
-                        self.response.set_cookie("username",username)
+                        expire_date = datetime.datetime(2017,12,11,0,0,0,0)
+                        self.response.set_cookie("username",username, expires = expire_date)
                         self.redirect("/")
                     else:
                         self.response.set_cookie("failed_reason", "Invalid Password")

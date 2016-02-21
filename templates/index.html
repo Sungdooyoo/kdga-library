@@ -47,9 +47,8 @@
         //setting cookie "username"
 		{% block body %}
             {% if username: %}
-				setCookie("username","{{username}}");
-            {% else: %}
-                setCookie("username","no_user");
+				setCookie("username","{{username}}",50);
+
             {% endif %}
 		{% endblock %}
         username = getCookie("username");
@@ -63,6 +62,12 @@
             document.getElementById("login_or_signup").innerHTML = "<a href='/signin'>로그인</a>|<a href='/signup'>회원가입</a>";
             document.getElementById("submit").disabled = true;
         };
+
+        {% block alert %}
+            {% if just_rented: %}
+                alert("대출되었습니다! 7일 후에 반납해 주세요");
+            {% endif %}
+        {% endblock %}
 
 	}
     </script>
