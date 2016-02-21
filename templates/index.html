@@ -38,9 +38,19 @@
     	function init() {
 
     		{% block body %}
-				setCookie("username","{{username}}")
+                {% if username: %}
+    				setCookie("username","{{username}}");
+                {% else: %}
+                    setCookie("username","no_user");
+                {% endif %}
 			{% endblock %}
-    		
+            username = getCookie("username");
+            if (username !="no_user") {
+                document.getElementById("login_or_signup").innerHTML = username;
+            } else{
+                document.getElementById("login_or_signup").innerHTML = "로그인";
+            };
+
     	}
     </script>
 
