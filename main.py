@@ -41,6 +41,11 @@ class User(db.Model):
     phoneNumber = db.IntegerProperty(required = True)
     created_time = db.DateTimeProperty(auto_now_add = True)
 
+class Books(db.Model):
+    username = db.StringProperty(required = True)
+    title = db.StringProperty(required = True)
+    rented_date = db.DateTimeProperty(auto_now_add = True)    
+
 
 # Webpage Handlers that handles http request and responses to render pages
 class Handler(webapp2.RequestHandler):
@@ -61,6 +66,12 @@ class Main(Handler):
         username = self.request.cookies.get("username")
         self.render("index.html", username=username)
     def post(self):
+        username = self.request.cookies.get("username")
+        title = self.request.get("title")
+        book_instance = Book(username = username,title =title)
+        book_instance.put()
+        self.render("index.html")
+
         pass
 
 
