@@ -22,6 +22,7 @@ import hmac
 import webapp2
 import cgi
 import jinja2
+import urllib
 from google.appengine.ext import db
 
 import s_hash
@@ -58,7 +59,7 @@ class Handler(webapp2.RequestHandler):
 class Main(Handler):
     def get(self):
         username = self.request.cookies.get("username")
-        self.render("index.html")
+        self.render("index.html", username=username)
     def post(self):
         pass
 
@@ -119,6 +120,30 @@ class Signup(Handler):
 class Signin(Handler):
     def get(self):
         self.render("signin.html")
+
+    def post(self):
+        username = self.request.get("username")
+        password = self.request.get("password")
+        user_entries = db.GqlQuery("select * from User where user_id='%s'" % username )
+
+        if user_entries.get():
+            for entry in user_entries:
+                if entry.user_id != "":
+                    hash_val= entry.password.split('|')[0]
+                    salt = entry.password.split('|')[1]
+                    if hashlib.sha256(password + salt).hexdigest() == hash_val:
+                        #login Success
+                        # self.response.set_cookie("logged_in_username", s_hash.hash_cookie(username))
+                        self.response.set_cookie("username",username)
+                        self.redirect("/")
+                    else:
+                        self.response.set_cookie("failed_reason", "Invalid Password")
+                        self.response.set_cookie("login_success", "false")
+                        self.render("/signin")
+        else:
+            self.response.set_cookie("login_success", "false")
+            self.response.set_cookie("failed_reason", "No such User")
+            self.render("signin.html")
 
 
 app = webapp2.WSGIApplication([('/', Main), 

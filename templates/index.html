@@ -27,15 +27,20 @@
         return unescape(cValue);
     }
 
-    	function init () {
-    		username = getCookie('username')
-    		username = decodeURIComponent(username)
-    		if (username == "") {
-    			document.getElementById('login_or_signup').innerHTML="로그인";
-    		} else{
-    			document.getElementById('login_or_signup').innerHTML="로그아웃<br>"
-    		};
+    function setCookie(c_name,value,exdays)
+	{
+		var exdate=new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var c_value=(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+		document.cookie=c_name + "=" + c_value;
+	}
 
+    	function init() {
+
+    		{% block body %}
+				setCookie("username","{{username}}")
+			{% endblock %}
+    		
     	}
     </script>
 
@@ -44,7 +49,6 @@
 <body onload="init()">
 
 	<div id="login_or_signup">
-		로그아웃 {{username}}
 	</div>
 	</body>
 	</html>
