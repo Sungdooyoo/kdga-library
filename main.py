@@ -15,7 +15,8 @@
 # limitations under the License.
 #
 
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
 import os
 import hashlib
 import hmac
@@ -66,13 +67,17 @@ class Handler(webapp2.RequestHandler):
 class Main(Handler):
     def get(self):
         username = self.request.cookies.get("username")
-        self.render("index.html", username=username)
+        username = username.encode("utf-8")
+        all_entries = db.GqlQuery("select * from Books")
+        my_entries = db.GqlQuery("select * from Books where username = '%s'" % username)
+        self.render("index.html", username=username, all_entries = all_entries , my_entries=my_entries의 )
     def post(self):
         username = self.request.get("username")
         title = self.request.get("title")
         book_instance = Books(username = username,title =title)
         book_instance.put()
-        self.render("index.html", username=username, just_rented=True)
+        all_entries = db.GqlQuery("select * from Books order by rented_date desc")
+        self.render("index.html", username=username, all_entries = all_entries ,just_rented=True)
 
 
 
@@ -108,8 +113,9 @@ class Signup(Handler):
             user_phoneNumber = int(user_phoneNumber)
             user_instance = User(user_id = username,phoneNumber=user_phoneNumber, password = password)
             user_instance.put()            
-            self.response.set_cookie("username", username)
-            self.render("index.html", username=username)
+            expire_date = datetime.datetime(2017,12,11,0,0,0,0)
+            self.response.set_cookie("username",username, expires = expire_date)
+            self.redirect("/")
 
 
     def error_caused_by(self, failed_reason, username='', phoneNumber='',password=''):
@@ -121,8 +127,8 @@ class Signup(Handler):
 
     def check_existing_user(self, user_id):
         user_already_exists = False
-        user_entries = db.GqlQuery("select * from User where user_id='%s'" % user_id )
-        for user_entry in user_entries:
+        user_all_entries = db.GqlQuery("select * from User where user_id='%s'" % user_id )
+        for user_entry in user_all_entries:
             if user_entry.user_id == user_id:
                 user_already_exists = True 
 
@@ -135,10 +141,10 @@ class Signin(Handler):
     def post(self):
         username = self.request.get("username")
         password = self.request.get("password")
-        user_entries = db.GqlQuery("select * from User where user_id='%s'" % username )
+        user_all_entries = db.GqlQuery("select * from User where user_id='%s'" % username )
 
-        if user_entries.get():
-            for entry in user_entries:
+        if user_all_entries.get():
+            for entry in user_all_entries:
                 if entry.user_id != "":
                     hash_val= entry.password.split('|')[0]
                     salt = entry.password.split('|')[1]

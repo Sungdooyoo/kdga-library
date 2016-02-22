@@ -13,9 +13,13 @@
         text-align: center;
         padding-top: 10px;
     }
-    #rented_list{
+    #all_rented_list{
         text-align: center;
         padding-top: 10px;
+    }
+    #my_rented_list{
+    text-align: center;
+    padding-top: 10px;
     }
     </style>
 
@@ -32,7 +36,7 @@
             if(end == -1)end = cookieData.length;
             cValue = cookieData.substring(start, end);
         }
-        return unescape(cValue);
+        return cValue;
     }
 
     function setCookie(c_name,value,exdays)
@@ -51,11 +55,12 @@
         //setting cookie "username"
 		{% block body %}
             {% if username: %}
-				setCookie("username","{{username}}",50);
+
+				setCookie("username",encodeURI("{{username}}"),50);
 
             {% endif %}
 		{% endblock %}
-        username = getCookie("username");
+        username = decodeURI(getCookie("username"));
 
         //rendering lougin_or_signup section
         if (username !="no_user") {
@@ -89,10 +94,23 @@
                 <input id="submit" type="submit" value="대출" disabled="true">
             </form> 
          </div>
+    
+     <div id="my_rented_list">
+        <h3>나의 대출 목록</h3>
+        {% block my_rented_list %}
+           {% for entry in my_entries %}
+             {{entry.title}} | {{entry.username}} | {{entry.rented_date}} <br>   
+            {% endfor %}
 
-    <div id="rented_list">
+        {% endblock %}
+
+    </div>
+    
+
+    <div id="all_rented_list">
+        <h3>모든 대출 목록</h3>
         {% block rented_list %}
-            {% for entry in entries %}
+            {% for entry in all_entries %}
              {{entry.title}} | {{entry.username}} | {{entry.rented_date}} <br>   
             {% endfor %}
 
