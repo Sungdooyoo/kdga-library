@@ -61,6 +61,7 @@
             {% endif %}
 		{% endblock %}
         username = decodeURI(getCookie("username"));
+        setCookie("username",username,50);
 
         //rendering lougin_or_signup section
         if (username !="no_user") {

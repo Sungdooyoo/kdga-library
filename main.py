@@ -67,10 +67,10 @@ class Handler(webapp2.RequestHandler):
 class Main(Handler):
     def get(self):
         username = self.request.cookies.get("username")
-        username = username.encode("utf-8")
+        # username = username.encode("utf-8")
         all_entries = db.GqlQuery("select * from Books")
         my_entries = db.GqlQuery("select * from Books where username = '%s'" % username)
-        self.render("index.html", username=username, all_entries = all_entries , my_entries=my_entries의 )
+        self.render("index.html", username=username, all_entries = all_entries , my_entries=my_entries )
     def post(self):
         username = self.request.get("username")
         title = self.request.get("title")
